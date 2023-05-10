@@ -1,0 +1,21 @@
+{
+  "name": "03_nodemongowebsockets",
+  "version": "1.0.0",
+  "description": "Un chat como el de Telegram, pero más chimbita",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chat",
+    "telegram",
+    "server"
+  ],
+  "author": "Nicole Venachi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.2"
+  }
+}
