@@ -26,12 +26,23 @@ function post(user) {
             reject('Datos incorrectos');
             return false; // acabo ejecución
         }
-
-        get(user.email)
-            .then(data => console.log(data))
         
-        store.post(user);
-        resolve('User created') //devolver algo, aunque no lo use
+        //antes de crearlo, consulto si ya existe en la DB
+        get(user.email)
+            .then(data => {
+                if (data[0]?.email != user.email) {
+                    
+                    store.post(user);
+                    resolve('User created') //devolver algo
+                } else {
+                    reject('Email is Already Registered')
+                }
+            })
+            .catch(err=>{
+                reject(err)
+            })
+        
+        
 
     });
     

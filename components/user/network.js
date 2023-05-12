@@ -51,9 +51,10 @@ router.post('/', (req,res) =>{
             //si todo melo, respondo con succes
             response.success(req,res, fullMessage,201);
         })
-        .catch((error) =>{
+        .catch((err) =>{
             //si algo sale mal, mando error
-            response.error(req, res, "Información inválida", 400, 'Error en controlador');
+            error = err== 'Email is Already Registered' ? err : 'Missing or Invalid information' 
+            response.error(req, res, error , 400, 'Error en controlador');
         })
 });
 
