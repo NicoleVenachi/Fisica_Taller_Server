@@ -73,15 +73,12 @@ async function patch(email, newRate) {
     //save
     await driver.save()
 
-    return 'Your rate have been updated to the driver global';
+    return 'Your rate have been updated to the driver global score';
 }
 
 module.exports = {
     get,
     post,
     patch
-    //getMsgParticular
-    //update
-    //delte
 }
 
