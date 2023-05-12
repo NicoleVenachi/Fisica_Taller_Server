@@ -28,6 +28,7 @@ function post(user) {
         }
         
         //antes de crearlo, consulto si ya existe en la DB
+        //realmente lo deberia hacer en store, y no aquí
         get(user.email)
             .then(data => {
                 if (data[0]?.email != user.email) {
@@ -48,30 +49,29 @@ function post(user) {
     
 }
 
-
-
-// // Para escribir  MSG
-// async function updateMessage(id, message) {
-//     // ***** Guarda mensaje con toda su info
+// Para actualizar el rate al driver
+async function patch(email, newRate) {
     
-//     return new Promise (async (resolve, reject) =>{
-//         // -VALIDACIÓN- sino hay info, no lo añade
-//         if (!id || !message) {
-//             //log para mi en server
-//             console.error('[messageController] No hay id, ni texto a actualizar');
-//             reject('Datos incorrectos');
-//             return false; // acabo ejecución
-//         }
-//         const result = await store.updateText(id, message);
+    return new Promise (async (resolve, reject) =>{
+        // -VALIDACIÓN- sino hay info, no lo añade
+        if (!email || !newRate  || !(newRate>=0 & newRate<=5)) {
+            //log para mi en server
+            console.error('[messageController] No hay info a actualizar o están malos los datos');
+            reject('Datos incorrectos');
+            return false; // acabo ejecución
+        }
+        
+        const result = await store.patch(email, newRate);
+        resolve(result)
+        reject(result)
 
-//         resolve(result) //un mensaje
-
-//     });
+    });
     
-// }
+}
 
 module.exports = {
     get,
-    post
+    post,
+    patch
 }
 

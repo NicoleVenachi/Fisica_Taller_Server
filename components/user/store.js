@@ -49,24 +49,37 @@ function post(user) {
 
 
 
-// async function updateText(id, message) {
-//     //busco el mensaje del modelo
-//     const foundMessage = await Model.findOne({
-//         id: id
-//     });
+async function patch(email, newRate) {
+    
+    //busco el driver
+    const driver = await Model.findOne({
+        email: email
+    });
 
-//     //actualizo
-//     foundMessage.message = message;
+    if (!driver?.rate) {
+        return "The user's email does not belongs to a driver account"
+    }
+    //actualizo
+    const totalRates = driver.rate.totalRates + 1;
+    const rateSum = driver.rate.rateSum + newRate;
+    const rateMean = rateSum/totalRates;
+    
+    driver.rate = {
+        rateSum: rateSum,
+        rateMean: rateMean,
+        totalRates: totalRates,
+    }
+    console.log(driver);
+    //save
+    await driver.save()
 
-//     //save
-//     const newMessage = await foundMessage.save()
-
-//     return newMessage;
-//}
+    return 'Your rate have been updated to the driver global';
+}
 
 module.exports = {
     get,
-    post
+    post,
+    patch
     //getMsgParticular
     //update
     //delte

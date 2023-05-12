@@ -58,4 +58,19 @@ router.post('/', (req,res) =>{
         })
 });
 
+router.patch('/', (req,res) =>{
+    
+    //update rate. Let's use email to identificate the driver
+    controller.patch(req.query.email, req.body.newRate)
+        .then((data)=>{
+            //si todo melo, respondo la data returned
+            response.success(req,res, data,201);
+        })
+        .catch((error) =>{
+            //si sale mal, mando error a server y texto a cliente
+            response.error(req, res, "Error interno", 400, error);
+        })
+});
+
+
 module.exports = router;
