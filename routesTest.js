@@ -1,29 +1,17 @@
-API_URL_DATA = 'https://codrive.onrender.com/user' 
-
+//API_URL_DATA = 'https://codrive.onrender.com' 
+API_URL_DATA = 'http://localhost:4005'
 data = {
   "name": "passenger",
   "password": "password",
-  "email": "passengerrr@gmail.com",
+  "email": "passenger2@gmail.com",
   "type": "passenger",
 }
+
+// ************************************** CREAR USUARIOS
+// aas'i se va a leer en el front-end
 function fetchData() {
 
-  fetch(API_URL_DATA,
-  {
-      mode: 'cors',
-      method: 'POST',
-      body: JSON.stringify(data)
-  })
-    .then(rawData=> rawData.json())
-    .then(data=>  console.log(data.body))
-    .catch(err =>{ 
-        console.log(err.message)
-    })
-}
-
-function fetchData() {
-
-  fetch(API_URL_DATA,
+  return fetch(API_URL_DATA + '/users',
   {
       mode: 'cors',
       method: 'POST',
@@ -32,17 +20,33 @@ function fetchData() {
       },
       body: JSON.stringify(data)
   })
-    .then(rawData=> rawData.json())
-    .then(data=>  console.log(data.body))
+    .then(res=> {
+      //si el estado de la respuesta no es ok, imprime el error body
+      return !res.ok ? 
+        res.json().then(data =>{
+          throw new Error(data.error)
+        }) 
+        :
+        res.json()
+    })
+    .then(data=>  {
+      return data.body
+    })
     .catch(err =>{ 
-        console.log(err.message)
+        return err.message
     })
 }
 
-fetchData()
+const prueba = async () =>{
+  a = await fetchData()
+  console.log(a)
+}
 
-// GET
-fetch(API_URL_DATA+'?email=passenger@gmail.com',
+prueba()
+
+
+// ********* GET, TRAER UN USAURISO **********
+fetch(API_URL_DATA+ '/users'+ '?email=passenger@gmail.co',
   {
       mode: 'cors',
       method: 'GET',
@@ -54,29 +58,35 @@ fetch(API_URL_DATA+'?email=passenger@gmail.com',
       console.log(err.message)
   })
 
+
+
+
+
+
+
 // PATCH- actualizar
-fetch(API_URL_DATA+'?email=driver@gmail.com',
-  {
-      mode: 'cors',
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "newRate": 3
-      })
-  })
+// fetch(API_URL_DATA+ '/users' + '?email=driver@gmail.com',
+//   {
+//       mode: 'cors',
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({
+//         "newRate": 3
+//       })
+//   })
 
-  .then(rawData=> rawData.json())
-  .then(data=>  console.log(data.body))
-  .catch(err =>{ 
-      console.log(err.message)
-  })
-
-
+//   .then(rawData=> rawData.json())
+//   .then(data=>  console.log(data.body))
+//   .catch(err =>{ 
+//       console.log(err.message)
+//   })
 
 
-// fetch(API_URL_DATA,
+
+//get varios usuarios
+// fetch(API_URL_DATA + '/users',
 //   {
 //       mode: 'cors',
 //       method: 'GET',
