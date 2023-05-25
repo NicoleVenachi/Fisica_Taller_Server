@@ -17,12 +17,12 @@ function get(filterUser){
 }
 
 // Para crear  trip
-function post(trip, driver, price, availableSeats, date) {
+function post(trip, driver, totalPrice, availableSeats, date) {
 
     return new Promise ((resolve, reject) =>{
         // -VALIDACIÓN- sino hay info, no lo añade
 
-        if (!trip || !driver || !price) {
+        if (!trip || !driver || !totalPrice) {
             //log para mi en server
             console.error('[messageController] No hay trip');
             reject('Missing data');
@@ -50,6 +50,7 @@ function post(trip, driver, price, availableSeats, date) {
         trip.passengers = []
         trip.started = false
         trip.finished = false
+        trip.totalPrice = totalPrice
         trip.date = new Date(date)
 
         store.post(trip);
@@ -60,22 +61,20 @@ function post(trip, driver, price, availableSeats, date) {
     
 }
 
-// Para actualizar el rate al driver
-async function patch(email, newRate) {
+// Para actualizar el trip con nuevos pasajeros
+async function patch(id, user) {
     
     return new Promise (async (resolve, reject) =>{
         // -VALIDACIÓN- sino hay info, no lo añade
-        if (!email || !newRate  || !(newRate>=0 & newRate<=5)) {
+        if (!id || !user) {
             //log para mi en server
             console.error('[messageController] No hay info a actualizar o están malos los datos');
-            reject('Datos incorrectos');
+            reject('Mising data');
             return false; // acabo ejecución
         }
         
-        const result = await store.patch(email, newRate);
+        const result = await store.patch(id, user);
         resolve(result)
-        reject(result)
-
     });
     
 }

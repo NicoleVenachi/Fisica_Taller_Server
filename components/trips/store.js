@@ -63,31 +63,69 @@ function post(trip) {
 
 
 
-async function patch(email, newRate) {
+async function patch(id, user) {
     
-    //busco el driver
-    const driver = await Model.findOne({
-        email: email
+    //busco el trip
+    const trip = await Model.findOne({
+        _id: id
     });
 
-    if (!driver?.rate) {
-        return "The user's email does not belongs to a driver account"
+    if (!trip) {
+        return "Trip id doesn't exist on the DB"
+    }
+
+    //actualizo el numero de puestos usados, verificando que no supere a los dispoibles
+    usedSeats = trip.carInfo.usedSeats +1
+    if (usedSeats > trip.carInfo.availableSeats){
+        return "This trip is already full"
+    }
+
+    //me aseguro que el pasajero no exista ya en ese trip
+    p_exists = false
+    trip.passengers.map(passenger => {
+        if(passenger.email == user.email){
+            p_exists = true
+        }
+    })
+
+    if (p_exists) {
+        return "You've been alreaday added to this trip before"
     }
     //actualizo
-    const totalRates = driver.rate.totalRates + 1;
-    const rateSum = driver.rate.rateSum + newRate;
-    const rateMean = rateSum/totalRates;
-    
-    driver.rate = {
-        rateSum: rateSum,
-        rateMean: rateMean,
-        totalRates: totalRates,
+    fare = trip.totalPrice /(usedSeats+1) //
+    userInfo = {
+        "name": user.name,
+        "email": user.email,
+        "fare": fare
     }
-    console.log(driver);
-    //save
-    await driver.save()
 
-    return 'Your rate have been updated to the driver global score';
+    trip.carInfo.usedSeats = usedSeats;
+    trip.passengers.push(userInfo)
+
+    //ademas, todos los usuarios les tengo que cambiar el precio
+    driverProfits = 0
+    passengers_backup = []
+    trip.passengers.forEach((passenger,idx) => {
+        new_passenger = passenger
+        new_passenger.fare = fare
+        passengers_backup.push(new_passenger)
+        driverProfits += fare
+    })
+    console.log(trip);
+
+    trip.driver.profits = driverProfits
+    
+    console.log(passengers_backup);
+
+    trip.passengers = []
+    //await trip_copy.save()
+    //save
+    await trip.save()
+
+    trip.passengers = passengers_backup
+    await trip.save()
+
+    return "You've been succesfully added to this trip!";
 }
 
 module.exports = {
