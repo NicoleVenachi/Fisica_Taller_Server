@@ -9,11 +9,13 @@ const Schema = mongoose.Schema;
 const mySchema = new Schema({
     driver: {
         name: String,
-        profits: String
+        rate: Number,
+        profits: String,
     },
     carInfo: {
         plate: String,
-        seats: Number,
+        availableSeats: Number,
+        usedSeats: Number
     },
     pickUpPoint: {
         lat: Number,
@@ -26,7 +28,7 @@ const mySchema = new Schema({
     passengers: Array,
     date: Date,
     totalPrice: Number,
-    status: Boolean,
+    started: Boolean,
     finished: Boolean,
 });
 

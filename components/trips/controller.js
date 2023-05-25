@@ -8,7 +8,7 @@ function get(filterUser){
     return new Promise((resolve, reject) => {
         try {
             filterUser == undefined ? 
-                reject('Especifique el/l@s usuari@(s)'):
+                reject('Please, specify users to get'):
                 resolve(store.get(filterUser))
         } catch (error) {
             reject(error)
@@ -16,33 +16,44 @@ function get(filterUser){
     })
 }
 
-// Para crear  user
-function post(user) {
+// Para crear  trip
+function post(trip, driver, price, availableSeats, date) {
+
     return new Promise ((resolve, reject) =>{
         // -VALIDACIÓN- sino hay info, no lo añade
-        if (!user) {
+
+        if (!trip || !driver || !price) {
             //log para mi en server
-            console.error('[messageController] No hay usaurio');
-            reject('Datos incorrectos');
+            console.error('[messageController] No hay trip');
+            reject('Missing data');
             return false; // acabo ejecución
         }
         
-        //antes de crearlo, consulto si ya existe en la DB
-        //realmente lo deberia hacer en store, y no aquí
-        get(user.email)
-            .then(data => {
-                if (data[0]?.email != user.email) {
-                    
-                    store.post(user);
-                    resolve('User created') //devolver algo
-                } else {
-                    reject('Email is Already Registered')
-                }
-            })
-            .catch(err=>{
-                reject(err)
-            })
+        if ((availableSeats > driver.carInfo.seats) || (availableSeats < 0 )) {
+            console.error('[messageController] available seats fuera de rango');
+            reject('The specified number of available seats exceeds those allowed for this car');
+            return false
+        }
         
+        //conformo la data y lo creo
+        trip.driver = {
+            name: driver.name,
+            rateMean: driver.rateMean,
+            profits: 0
+        }
+        trip.carInfo  = {
+            plate: driver.carInfo.plate,
+            seats: driver.carInfo.seats,
+            availableSeats: availableSeats,
+            usedSeats: 0
+        }
+        trip.passengers = []
+        trip.started = false
+        trip.finished = false
+        trip.date = new Date(date)
+
+        store.post(trip);
+        resolve('Trip created')
         
 
     });

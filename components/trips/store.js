@@ -23,6 +23,20 @@ db.connect('mongodb+srv://db_user_test:db_user_test@cluster0.kfx9dm4.mongodb.net
 //leer info de user con su name
 async function get(filterUser) {
 
+    //creo un filtro vcío
+    let filter ={};
+
+    //si hay filtro, lo pongo
+    if (filterUser != null){
+        filter = {user: filterUser};
+    }
+    else {}
+
+    //traigo TODOS los msgs con ese filtro
+    //si filtro está vació, tra todo
+    const mesaggess = await Model.find(filter);
+    return mesaggess;
+
     // conviero lada data del filtro en array
     let users = typeof filterUser == 'object' ? 
         filterUser : [filterUser]
@@ -39,12 +53,12 @@ async function get(filterUser) {
 }
 
 //crear usuario mensaje
-function post(user) {
+function post(trip) {
     //Insantacion mensaje como clase del modelo
-    const myUser = new Model(user);
+    const myTrip = new Model(trip);
     
     //Write:
-    myUser.save();
+    myTrip.save();
 }
 
 

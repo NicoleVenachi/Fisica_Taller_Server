@@ -18,8 +18,8 @@ router.get('/', (req,res) =>{
         })
         .catch((err) =>{
             //si hay err, en srver lo digo, al cliente algo gen'erico
-            error = err== 'Especifique el/l@s usuari@(s)' ? err : 'Unexpected Error' 
-            stats = err== 'Especifique el/l@s usuari@(s)' ? res.status : 500
+            error = err== 'Please, specify users to get' ? err : 'Unexpected Error' 
+            // stats = err== 'Especifique el/l@s usuari@(s)' ? res.status : 500
             response.error(req,res, error, 500, err);
         })
 

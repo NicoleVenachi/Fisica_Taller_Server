@@ -8,7 +8,7 @@ function get(filterUser){
     return new Promise((resolve, reject) => {
         try {
             filterUser == undefined ? 
-                reject('Especifique el/l@s usuari@(s)'):
+                reject('Please, specify users to get'):
                 resolve(store.get(filterUser))
         } catch (error) {
             reject(error)
@@ -23,7 +23,7 @@ function post(user) {
         if (!user) {
             //log para mi en server
             console.error('[messageController] No hay usaurio');
-            reject('Datos incorrectos');
+            reject('Missing data');
             return false; // acabo ejecución
         }
         
@@ -57,7 +57,7 @@ async function patch(email, newRate) {
         if (!email || !newRate  || !(newRate>=0 & newRate<=5)) {
             //log para mi en server
             console.error('[messageController] No hay info a actualizar o están malos los datos');
-            reject('Datos incorrectos');
+            reject('Missing data');
             return false; // acabo ejecución
         }
         
