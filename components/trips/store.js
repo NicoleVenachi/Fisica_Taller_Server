@@ -21,35 +21,29 @@ db.connect('mongodb+srv://db_user_test:db_user_test@cluster0.kfx9dm4.mongodb.net
 //********* CRUD  */
 
 //leer info de user con su name
-async function get(filterUser) {
+async function get_by_user(user) {
 
+
+    //verifico el tipo de usuario para saber como crear el grltro
     //creo un filtro vcío
-    let filter ={};
 
     //si hay filtro, lo pongo
-    if (filterUser != null){
-        filter = {user: filterUser};
+    if (user.type == 'driver'){
+        let filter = {
+            "driver.email": user.email
+        }
+        const trips = await Model.find(filter)
+        console.log(trips)
+        return trips
     }
-    else {}
-
-    //traigo TODOS los msgs con ese filtro
-    //si filtro está vació, tra todo
-    const mesaggess = await Model.find(filter);
-    return mesaggess;
-
-    // conviero lada data del filtro en array
-    let users = typeof filterUser == 'object' ? 
-        filterUser : [filterUser]
-
-    let data = []
-    //por cada usuario hago el findOne
-    for (const user of users) {
-        let filter = {email: user}
-
-        data.push(await Model.findOne(filter));
+    else {
+        let filter = {
+            "passengers.email": user.email
+        }
+        const trips = await Model.find(filter)
+        console.log(trips)
+        return trips
     }
-    
-    return data;
 }
 
 //crear usuario mensaje
@@ -111,11 +105,11 @@ async function patch(id, user) {
         passengers_backup.push(new_passenger)
         driverProfits += fare
     })
-    console.log(trip);
+    //console.log(trip);
 
     trip.driver.profits = driverProfits
     
-    console.log(passengers_backup);
+    //console.log(passengers_backup);
 
     trip.passengers = []
     //await trip_copy.save()
@@ -129,7 +123,8 @@ async function patch(id, user) {
 }
 
 module.exports = {
-    get,
+    get_by_user,
+    //get_by_destination,
     post,
     patch
 }

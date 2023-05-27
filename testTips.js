@@ -41,28 +41,101 @@ data_post = {
 		"destination": {
 				"lat": 2.45958,
 				"lng": -76.59399,
+        "nickName": "FIET"
 			},
 	},
 	"driver": driver,
-	"availableSeats": 4,
+	"availableSeats": 2,
 	"totalPrice": 7000,
 	"date": "2023-06-25T20:30:00.000Z",
 }
 data_patch = {
-  "_id": "646fae3c61c3307e86c46953",
+  "_id": "64714008abf268680fdc4762",
   "user": user,
 }
 
-function postDriver() {
+// ********post
+// function postTrip() {
 
-  return fetch(API_URL_DATA + '/trips',
+//   return fetch(API_URL_DATA + '/trips',
+//   {
+//       mode: 'cors',
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(data_post)
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
+
+// const prueba = async () =>{
+//   a = await postTrip()
+//   console.log(a)
+// }
+
+// prueba()
+
+//
+
+// function updateTrip() {
+
+//   return fetch(API_URL_DATA + '/trips',
+//   {
+//       mode: 'cors',
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(data_patch)
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
+
+// const prueba = async () =>{
+//   a = await updateTrip()
+//   console.log(a)
+// }
+
+// prueba()
+
+
+// **** Get
+
+function getTrip() {
+
+  return fetch(API_URL_DATA + '/trips' + '?email=passenger@gmail.com' +'&' + 'type=passenger',
   {
       mode: 'cors',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data_post)
+      method: 'GET',
   })
     .then(res=> {
       //si el estado de la respuesta no es ok, imprime el error body
@@ -82,8 +155,9 @@ function postDriver() {
 }
 
 const prueba = async () =>{
-  a = await postDriver()
+  a = await getTrip()
   console.log(a)
 }
 
 prueba()
+

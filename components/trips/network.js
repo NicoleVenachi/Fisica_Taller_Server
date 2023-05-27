@@ -4,26 +4,45 @@ const router = express.Router();
 
 const response = require('../../network/response.js');
 
-const controller = require('./controller.js')
+const controller = require('./controller.js');
+const { error } = require('../../network/response.js');
 
 //***** -Router- para manejar más fácil rutas******
 
-// router.get('/', (req,res) =>{
-//     //busco el user del query
+router.get('/', (req,res) =>{
+    //busco el user del query
     
-//     let filterUser = req.query.email || req.body.emails;
-//     controller.get(filterUser)
-//         .then((data) =>{
-//             response.success(req,res, data,201);
-//         })
-//         .catch((err) =>{
-//             //si hay err, en srver lo digo, al cliente algo gen'erico
-//             error = err== 'Especifique el/l@s usuari@(s)' ? err : 'Unexpected Error' 
-//             stats = err== 'Especifique el/l@s usuari@(s)' ? res.status : 500
-//             response.error(req,res, error, 500, err);
-//         })
+    if(!!req.query.email & !!req.query.type){
 
-// });
+        const user= {
+            email: req.query.email,
+            type: req.query.type
+        }
+        controller.get_by_user(user)
+            .then((data) =>{
+                response.success(req,res, data,201);
+            })
+            .catch((err) =>{
+                //si hay err, en srver lo digo, al cliente algo gen'erico
+                response.error(req,res, error, 500, err);
+            })
+    }
+    else if (!!req.query.destination) {
+        controller.get_by_destination(req.query.destination)
+            .then((data) =>{
+                response.success(req,res, data,201);
+            })
+            .catch((err) =>{
+                //si hay err, en srver lo digo, al cliente algo gen'erico
+                response.error(req,res, error, 500, err);
+            })
+    }
+    else{
+        const error= "Please, specify the user or the destination's nick name to get"
+        response.error(req, res, error, 400, error)
+    }
+    
+});
 
 router.post('/', (req,res) =>{
     controller.post(req.body.trip, req.body.driver, req.body.totalPrice, req.body.availableSeats, req.body.date)

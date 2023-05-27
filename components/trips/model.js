@@ -9,8 +9,9 @@ const Schema = mongoose.Schema;
 const mySchema = new Schema({
     driver: {
         name: String,
+        email: String,
         rate: Number,
-        profits: String,
+        profits: Number,
     },
     carInfo: {
         plate: String,
@@ -23,7 +24,8 @@ const mySchema = new Schema({
     },
     destination: {
         lat: Number,
-        lng: Number
+        lng: Number,
+        nickName: String
     },
     passengers: Array,
     date: Date,

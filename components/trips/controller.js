@@ -2,19 +2,33 @@
 const store = require('./store.js')
 
 
-//para leer info de User
-function get(filterUser){
+//para leer info del trip by user
+function get_by_user(user){
     //paso al listar, el filtro
     return new Promise((resolve, reject) => {
         try {
-            filterUser == undefined ? 
-                reject('Please, specify users to get'):
-                resolve(store.get(filterUser))
+            user == undefined ? 
+                reject('Please, specify the user to get'):
+                resolve(store.get_by_user(user))
         } catch (error) {
             reject(error)
         }
     })
 }
+//para leer info del trip by destination
+function get_by_destination(user){
+    //paso al listar, el filtro
+    return new Promise((resolve, reject) => {
+        try {
+            user == undefined ? 
+                reject('Please, specify the destination to get'):
+                resolve(store.get_by_user(user))
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 
 // Para crear  trip
 function post(trip, driver, totalPrice, availableSeats, date) {
@@ -38,7 +52,8 @@ function post(trip, driver, totalPrice, availableSeats, date) {
         //conformo la data y lo creo
         trip.driver = {
             name: driver.name,
-            rateMean: driver.rateMean,
+            email: driver.email,
+            rate: driver.rate.rateMean,
             profits: 0
         }
         trip.carInfo  = {
@@ -80,7 +95,8 @@ async function patch(id, user) {
 }
 
 module.exports = {
-    get,
+    get_by_user,
+    get_by_destination,
     post,
     patch
 }
