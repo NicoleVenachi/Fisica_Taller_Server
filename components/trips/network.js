@@ -11,7 +11,6 @@ const { error } = require('../../network/response.js');
 
 router.get('/', (req,res) =>{
     //busco el user del query
-    
     if(!!req.query.email & !!req.query.type){
 
         const user= {
@@ -27,8 +26,11 @@ router.get('/', (req,res) =>{
                 response.error(req,res, error, 500, err);
             })
     }
-    else if (!!req.query.destination) {
-        controller.get_by_destination(req.query.destination)
+    else if (!!req.query.nickName) {
+        destination = {
+            nickName: req.query.nickName
+        }
+        controller.get_by_destination(destination)
             .then((data) =>{
                 response.success(req,res, data,201);
             })

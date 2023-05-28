@@ -130,12 +130,45 @@ data_patch = {
 
 // **** Get
 
-function getTrip() {
+// function getTrip() {
 
-  return fetch(API_URL_DATA + '/trips' + '?email=passenger@gmail.com' +'&' + 'type=passenger',
+//   return fetch(API_URL_DATA + '/trips' + '?email=passenger@gmail.com' +'&' + 'type=passenger',
+//   {
+//       mode: 'cors',
+//       method: 'GET',
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
+
+// const prueba = async () =>{
+//   a = await getTrip()
+//   console.log(a)
+// }
+
+// prueba()
+
+
+function getTripByDestination() {
+
+  nickName = 'FIET'
+  return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
   {
       mode: 'cors',
-      method: 'GET',
+      method: 'GET'
   })
     .then(res=> {
       //si el estado de la respuesta no es ok, imprime el error body
@@ -155,7 +188,7 @@ function getTrip() {
 }
 
 const prueba = async () =>{
-  a = await getTrip()
+  a = await getTripByDestination()
   console.log(a)
 }
 

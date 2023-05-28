@@ -8,9 +8,9 @@ db.Promise = global.Promise;
 
 db.set('strictQuery', true);
 db.connect('mongodb+srv://db_user_test:db_user_test@cluster0.kfx9dm4.mongodb.net/taller_DB?retryWrites=true&w=majority', {
-    useNewUrlParser: true, 
+    useNewUrlParser: true,
     keepAlive: true,
-    useUnifiedTopology:true
+    useUnifiedTopology: true
 })
     .then(() => console.log('[db] Conectada con éxito'))
     .catch(err => console.error('[db]', err))
@@ -20,7 +20,7 @@ db.connect('mongodb+srv://db_user_test:db_user_test@cluster0.kfx9dm4.mongodb.net
 
 //********* CRUD  */
 
-//leer info de user con su name
+//consulatr trip by user
 async function get_by_user(user) {
 
 
@@ -28,12 +28,12 @@ async function get_by_user(user) {
     //creo un filtro vcío
 
     //si hay filtro, lo pongo
-    if (user.type == 'driver'){
+    if (user.type == 'driver') {
         let filter = {
             "driver.email": user.email
         }
         const trips = await Model.find(filter)
-        console.log(trips)
+        //console.log(trips)
         return trips
     }
     else {
@@ -41,16 +41,26 @@ async function get_by_user(user) {
             "passengers.email": user.email
         }
         const trips = await Model.find(filter)
-        console.log(trips)
+        //console.log(trips)
         return trips
     }
 }
 
-//crear usuario mensaje
+async function  get_by_destination(destination) {
+    let filter = {
+        "destination.nickName": destination.nickName,
+        "started": false
+    }
+    const trips = await Model.find(filter)
+    //console.log(trips)
+    return trips
+}
+
+//crear trip
 function post(trip) {
     //Insantacion mensaje como clase del modelo
     const myTrip = new Model(trip);
-    
+
     //Write:
     myTrip.save();
 }
@@ -58,7 +68,7 @@ function post(trip) {
 
 
 async function patch(id, user) {
-    
+
     //busco el trip
     const trip = await Model.findOne({
         _id: id
@@ -69,15 +79,15 @@ async function patch(id, user) {
     }
 
     //actualizo el numero de puestos usados, verificando que no supere a los dispoibles
-    usedSeats = trip.carInfo.usedSeats +1
-    if (usedSeats > trip.carInfo.availableSeats){
+    usedSeats = trip.carInfo.usedSeats + 1
+    if (usedSeats > trip.carInfo.availableSeats) {
         return "This trip is already full"
     }
 
     //me aseguro que el pasajero no exista ya en ese trip
     p_exists = false
     trip.passengers.map(passenger => {
-        if(passenger.email == user.email){
+        if (passenger.email == user.email) {
             p_exists = true
         }
     })
@@ -86,7 +96,7 @@ async function patch(id, user) {
         return "You've been alreaday added to this trip before"
     }
     //actualizo
-    fare = trip.totalPrice /(usedSeats+1) //
+    fare = trip.totalPrice / (usedSeats + 1) //
     userInfo = {
         "name": user.name,
         "email": user.email,
@@ -99,7 +109,7 @@ async function patch(id, user) {
     //ademas, todos los usuarios les tengo que cambiar el precio
     driverProfits = 0
     passengers_backup = []
-    trip.passengers.forEach((passenger,idx) => {
+    trip.passengers.forEach((passenger, idx) => {
         new_passenger = passenger
         new_passenger.fare = fare
         passengers_backup.push(new_passenger)
@@ -108,7 +118,7 @@ async function patch(id, user) {
     //console.log(trip);
 
     trip.driver.profits = driverProfits
-    
+
     //console.log(passengers_backup);
 
     trip.passengers = []
@@ -124,7 +134,7 @@ async function patch(id, user) {
 
 module.exports = {
     get_by_user,
-    //get_by_destination,
+    get_by_destination,
     post,
     patch
 }

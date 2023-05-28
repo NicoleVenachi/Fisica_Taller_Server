@@ -16,13 +16,13 @@ function get_by_user(user){
     })
 }
 //para leer info del trip by destination
-function get_by_destination(user){
+function get_by_destination(destination){
     //paso al listar, el filtro
     return new Promise((resolve, reject) => {
         try {
-            user == undefined ? 
+            destination == undefined ? 
                 reject('Please, specify the destination to get'):
-                resolve(store.get_by_user(user))
+                resolve(store.get_by_destination(destination))
         } catch (error) {
             reject(error)
         }
