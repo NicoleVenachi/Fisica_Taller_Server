@@ -94,10 +94,30 @@ async function patch(id, user) {
     
 }
 
+async function patch_status(id, started, finished) {
+    console.log("🚀 ~ file: controller.js:98 ~ patch_status ~ finished:", finished)
+    console.log("🚀 ~ file: controller.js:98 ~ patch_status ~ started:", started)
+    
+    return new Promise (async (resolve, reject) =>{
+        // -VALIDACIÓN- XOR, o el uno o el otro, y que haya id
+        if (!!id & (!!finished != !!started)) {
+            const result = await store.patch_status(id,  started, finished);
+            resolve(result)
+        }
+        else{
+            //log para mi en server
+            console.error('[messageController] Está enviando los dos datos o no esta enviando id');
+            reject("Miising or invalid information" );
+        }
+    });
+    
+}
+
 module.exports = {
     get_by_user,
     get_by_destination,
     post,
-    patch
+    patch,
+    patch_status
 }
 

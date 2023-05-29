@@ -63,7 +63,8 @@ router.post('/', (req,res) =>{
 
 router.patch('/', (req,res) =>{
     
-    controller.patch(req.body._id, req.body.user)
+    if (!!req.body._id & !!req.body.user){
+        controller.patch(req.body._id, req.body.user)
         .then((data)=>{
             response.success(req,res, data,201);
         })
@@ -71,7 +72,24 @@ router.patch('/', (req,res) =>{
             console.log(err);
             response.error(req, res, "Error interno", 400, err);
         })
+    }
+    else if (!!req.body._id & (!!req.body.started || !!req.body.finished)) {
+        controller.patch_status(req.body._id, req.body.started, req.body.finished)
+        .then((data)=>{
+            response.success(req,res, data,201);
+        })
+        .catch((err) =>{
+            console.log(err);
+            response.error(req, res, "Miising or invalid information", 400, err);
+        })
+    }
+    else{
+        const error= "Missing or invalid information"
+        response.error(req, res, error, 400, error)
+    }
+    
 });
+
 
 
 module.exports = router;

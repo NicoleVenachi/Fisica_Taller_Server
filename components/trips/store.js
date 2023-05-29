@@ -132,10 +132,33 @@ async function patch(id, user) {
     return "You've been succesfully added to this trip!";
 }
 
+async function patch_status(id, started, finished) {
+    
+    //busco el trip
+    const trip = await Model.findOne({
+        _id: id
+    });
+
+    if(!!started){ //si vienve started, lo hago true, sino hago true a finished
+        trip.started = true
+        await trip.save()
+        return "You've succesfully started this trip! We wish you a safe trip.";
+    }
+    else {
+        trip.finished = true
+        await trip.save()
+        return "You've finished your trip safe and sound, congrats!";
+    }
+}
+
+
+
+
 module.exports = {
     get_by_user,
     get_by_destination,
     post,
-    patch
+    patch,
+    patch_status
 }
 

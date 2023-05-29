@@ -54,6 +54,17 @@ data_patch = {
   "user": user,
 }
 
+
+data_patch_status_started = {
+	"_id": "647147d0d7ee2ac764f6744d",
+	"started": true
+}
+
+data_patch_status_finished = {
+	"_id": "647147d0d7ee2ac764f6744d",
+	"finished": true
+}
+
 // ********post
 // function postTrip() {
 
@@ -90,7 +101,7 @@ data_patch = {
 
 // prueba()
 
-//
+// ****ptch
 
 // function updateTrip() {
 
@@ -162,13 +173,49 @@ data_patch = {
 // prueba()
 
 
-function getTripByDestination() {
+// function getTripByDestination() {
 
-  nickName = 'FIET'
-  return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
+//   nickName = 'FIET'
+//   return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
+//   {
+//       mode: 'cors',
+//       method: 'GET'
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
+
+// const prueba = async () =>{
+//   a = await getTripByDestination()
+//   console.log(a)
+// }
+
+// prueba()
+
+//  ********Patch status
+function updateTripStatus() {
+
+  return fetch(API_URL_DATA + '/trips',
   {
       mode: 'cors',
-      method: 'GET'
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data_patch_status_started)
   })
     .then(res=> {
       //si el estado de la respuesta no es ok, imprime el error body
@@ -188,7 +235,7 @@ function getTripByDestination() {
 }
 
 const prueba = async () =>{
-  a = await getTripByDestination()
+  a = await updateTripStatus()
   console.log(a)
 }
 
