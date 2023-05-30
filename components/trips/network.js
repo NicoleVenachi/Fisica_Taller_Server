@@ -39,6 +39,16 @@ router.get('/', (req,res) =>{
                 response.error(req,res, error, 500, err);
             })
     }
+    else if (!!req.query._id) {
+        controller.get_by_id(req.query._id)
+            .then((data) =>{
+                response.success(req,res, data,201);
+            })
+            .catch((err) =>{
+                //si hay err, en srver lo digo, al cliente algo gen'erico
+                response.error(req,res, error, 500, err);
+            })
+    }
     else{
         const error= "Please, specify the user or the destination's nick name to get"
         response.error(req, res, error, 400, error)

@@ -29,6 +29,15 @@ function get_by_destination(destination){
     })
 }
 
+function get_by_id(id) {
+    return new Promise((resolve, reject) => {
+        try {
+            resolve(store.get_by_id(id))
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
 
 // Para crear  trip
 function post(trip, driver, totalPrice, availableSeats, date) {
@@ -94,10 +103,7 @@ async function patch(id, user) {
     
 }
 
-async function patch_status(id, started, finished) {
-    console.log("🚀 ~ file: controller.js:98 ~ patch_status ~ finished:", finished)
-    console.log("🚀 ~ file: controller.js:98 ~ patch_status ~ started:", started)
-    
+async function patch_status(id, started, finished) {    
     return new Promise (async (resolve, reject) =>{
         // -VALIDACIÓN- XOR, o el uno o el otro, y que haya id
         if (!!id & (!!finished != !!started)) {
@@ -116,6 +122,7 @@ async function patch_status(id, started, finished) {
 module.exports = {
     get_by_user,
     get_by_destination,
+    get_by_id,
     post,
     patch,
     patch_status

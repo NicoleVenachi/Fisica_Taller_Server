@@ -46,6 +46,14 @@ async function get_by_user(user) {
     }
 }
 
+async function get_by_id(id) {
+    const trip = await Model.findOne({
+        _id: id
+    });
+
+    return trip
+}
+
 async function  get_by_destination(destination) {
     let filter = {
         "destination.nickName": destination.nickName,
@@ -157,6 +165,7 @@ async function patch_status(id, started, finished) {
 module.exports = {
     get_by_user,
     get_by_destination,
+    get_by_id,
     post,
     patch,
     patch_status
