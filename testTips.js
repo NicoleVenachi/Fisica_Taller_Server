@@ -173,49 +173,13 @@ data_patch_status_finished = {
 // prueba()
 
 
-// function getTripByDestination() {
+function getTripByDestination() {
 
-//   nickName = 'FIET'
-//   return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
-//   {
-//       mode: 'cors',
-//       method: 'GET'
-//   })
-//     .then(res=> {
-//       //si el estado de la respuesta no es ok, imprime el error body
-//       return !res.ok ? 
-//         res.json().then(data =>{
-//           throw new Error(data.error)
-//         }) 
-//         :
-//         res.json()
-//     })
-//     .then(data=>  {
-//       return data.body
-//     })
-//     .catch(err =>{ 
-//         return err.message
-//     })
-// }
-
-// const prueba = async () =>{
-//   a = await getTripByDestination()
-//   console.log(a)
-// }
-
-// prueba()
-
-//  ********Patch status
-function updateTripStatus() {
-
-  return fetch(API_URL_DATA + '/trips',
+  nickName = 'FIET'
+  return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
   {
       mode: 'cors',
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data_patch_status_started)
+      method: 'GET'
   })
     .then(res=> {
       //si el estado de la respuesta no es ok, imprime el error body
@@ -235,9 +199,45 @@ function updateTripStatus() {
 }
 
 const prueba = async () =>{
-  a = await updateTripStatus()
+  a = await getTripByDestination()
   console.log(a)
 }
 
 prueba()
+
+//  ********Patch status
+// function updateTripStatus() {
+
+//   return fetch(API_URL_DATA + '/trips',
+//   {
+//       mode: 'cors',
+//       method: 'PATCH',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(data_patch_status_started)
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
+
+// const prueba = async () =>{
+//   a = await updateTripStatus()
+//   console.log(a)
+// }
+
+// prueba()
 
