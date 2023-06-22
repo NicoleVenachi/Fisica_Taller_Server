@@ -20,7 +20,8 @@ const mySchema = new Schema({
     },
     pickUpPoint: {
         lat: Number,
-        lng: Number
+        lng: Number,
+        nickName: String
     },
     destination: {
         lat: Number,
