@@ -1,7 +1,7 @@
 //date3.toJSON()
 
-//API_URL_DATA = 'https://codrive.onrender.com' 
-API_URL_DATA = 'http://localhost:4005'
+API_URL_DATA = 'https://codrive.onrender.com' 
+//API_URL_DATA = 'http://localhost:4005'
 
 //DATA dummie de prueba
 let driver = {
@@ -35,8 +35,8 @@ let user = {
 data_post = {
 	"trip": {
 		"pickUpPoint": {
-				"lat": 2.44652,
-				"lng": -76.59948,
+				
+        "nickName": "CAMPANARIO"
 			},
 		"destination": {
 				"lat": 2.45958,
@@ -66,40 +66,40 @@ data_patch_status_finished = {
 }
 
 // ********post
-// function postTrip() {
+function postTrip() {
 
-//   return fetch(API_URL_DATA + '/trips',
-//   {
-//       mode: 'cors',
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(data_post)
-//   })
-//     .then(res=> {
-//       //si el estado de la respuesta no es ok, imprime el error body
-//       return !res.ok ? 
-//         res.json().then(data =>{
-//           throw new Error(data.error)
-//         }) 
-//         :
-//         res.json()
-//     })
-//     .then(data=>  {
-//       return data.body
-//     })
-//     .catch(err =>{ 
-//         return err.message
-//     })
-// }
+  return fetch(API_URL_DATA + '/trips',
+  {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data_post)
+  })
+    .then(res=> {
+      //si el estado de la respuesta no es ok, imprime el error body
+      return !res.ok ? 
+        res.json().then(data =>{
+          throw new Error(data.error)
+        }) 
+        :
+        res.json()
+    })
+    .then(data=>  {
+      return data.body
+    })
+    .catch(err =>{ 
+        return err.message
+    })
+}
 
-// const prueba = async () =>{
-//   a = await postTrip()
-//   console.log(a)
-// }
+const prueba = async () =>{
+  a = await postTrip()
+  console.log(a)
+}
 
-// prueba()
+prueba()
 
 // ****ptch
 
@@ -173,37 +173,37 @@ data_patch_status_finished = {
 // prueba()
 
 
-function getTripByDestination() {
+// function getTripByDestination() {
 
-  nickName = 'FIET'
-  return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
-  {
-      mode: 'cors',
-      method: 'GET'
-  })
-    .then(res=> {
-      //si el estado de la respuesta no es ok, imprime el error body
-      return !res.ok ? 
-        res.json().then(data =>{
-          throw new Error(data.error)
-        }) 
-        :
-        res.json()
-    })
-    .then(data=>  {
-      return data.body
-    })
-    .catch(err =>{ 
-        return err.message
-    })
-}
+//   nickName = 'FIET'
+//   return fetch(API_URL_DATA + '/trips' + '?nickName=' + nickName,
+//   {
+//       mode: 'cors',
+//       method: 'GET'
+//   })
+//     .then(res=> {
+//       //si el estado de la respuesta no es ok, imprime el error body
+//       return !res.ok ? 
+//         res.json().then(data =>{
+//           throw new Error(data.error)
+//         }) 
+//         :
+//         res.json()
+//     })
+//     .then(data=>  {
+//       return data.body
+//     })
+//     .catch(err =>{ 
+//         return err.message
+//     })
+// }
 
-const prueba = async () =>{
-  a = await getTripByDestination()
-  console.log(a)
-}
+// const prueba = async () =>{
+//   a = await getTripByDestination()
+//   console.log(a)
+// }
 
-prueba()
+// prueba()
 
 //  ********Patch status
 // function updateTripStatus() {
